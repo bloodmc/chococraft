@@ -49,15 +49,11 @@ import chococraft.common.network.ChocoboPacketHandler;
 import chococraft.common.tick.ServerSpawnTickHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -66,9 +62,7 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid=Constants.TCC_MODID, name=Constants.TCC_NAME, version=Constants.TCC_VERSION)
-@NetworkMod(clientSideRequired = true, serverSideRequired = false, 
-		channels = { Constants.PCHAN_CHOCOBO },
-		packetHandler = ChocoboPacketHandler.class)
+
 public class ModChocoCraft
 {	
 	public static Configuration mainConfiguration;
@@ -227,7 +221,7 @@ public class ModChocoCraft
 	@SidedProxy(clientSide = "chococraft.client.ClientProxyChocoCraft", serverSide = "chococraft.common.CommonProxyChocoCraft")
 	public static CommonProxyChocoCraft proxy;
 
-	@Init
+	@EventHandler
 	public void loadChocoCraft(FMLInitializationEvent loadEvent)
 	{
 		//this.createCreativeTab();
@@ -260,7 +254,7 @@ public class ModChocoCraft
 		TickRegistry.registerScheduledTickHandler(new ServerSpawnTickHandler(), Side.SERVER);
 	}
 
-	@PreInit
+	@EventHandler
 	public void preLoadChocoCraft(FMLPreInitializationEvent preInitEvent)
 	{
 		chocoboHeight = 1.9F;
@@ -348,7 +342,7 @@ public class ModChocoCraft
     	proxy.registerEventListener();
 	}
 
-	@PostInit
+	@EventHandler
 	public void postLoadChocoCraft(FMLPostInitializationEvent postInitEvent) {}
 
 //	// initialising methods
